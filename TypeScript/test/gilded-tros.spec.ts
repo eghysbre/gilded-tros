@@ -163,4 +163,28 @@ describe('GildedTrosTest', () => {
             expect(result[1].quality).toEqual(0);
         });
     });
+    describe('Smelly items', () => {
+        it.each([
+            //given
+            {item: new Item(Description.DUPLICATE_CODE, 10, 10), expectedSellIn: 9, expectedQuality: 8},
+            {item: new Item(Description.LONG_METHODS, 10, 10), expectedSellIn: 9, expectedQuality: 8},
+            {item: new Item(Description.UGLY_VARIABLE_NAMES, 10, 10), expectedSellIn: 9, expectedQuality: 8},
+            {item: new Item(Description.DUPLICATE_CODE, 0, 10), expectedSellIn: -1, expectedQuality: 6},
+            {item: new Item(Description.LONG_METHODS, 0, 10), expectedSellIn: -1, expectedQuality: 6},
+            {item: new Item(Description.UGLY_VARIABLE_NAMES, 0, 10), expectedSellIn: -1, expectedQuality: 6},
+        ])(
+            'should decrease quality twice as fast for $item',
+            ({item, expectedSellIn, expectedQuality}) => {
+                const app: GildedTros = new GildedTros([item]);
+
+                //when
+                const result: Item[] = app.updateQuality();
+
+                //then
+                expect(result[0].name).toEqual(item.name);
+                expect(result[0].sellIn).toEqual(expectedSellIn);
+                expect(result[0].quality).toEqual(expectedQuality);
+            },
+        );
+    });
 });

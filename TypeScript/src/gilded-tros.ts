@@ -1,6 +1,6 @@
 import {Item} from './item';
 import {Description} from './description.enum';
-import {MAX_QUALITY} from '@/gilded-tros.functions';
+import {MAX_QUALITY} from './gilded-tros.functions';
 
 export class GildedTros {
     private _items: Array<Item> = new Array<Item>();
