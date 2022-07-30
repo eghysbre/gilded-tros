@@ -8,8 +8,13 @@ export const LEGENDARY_QUALITY = 80;
 export const decreaseItemQuality = (item: Item): void => {
     item.quality -= 1;
 }
-export const increaseItemQuality = (item: Item): void => {
-    item.quality += 1;
+
+export const increaseItemQuality= (item: Item, increase: number): void => {
+    item.quality += increase;
+}
+
+export const increaseItemQualityByOne = (item: Item): void => {
+    increaseItemQuality(item, 1);
 }
 
 export const isBackstagePass = (item: Item): boolean => {

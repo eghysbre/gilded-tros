@@ -1,6 +1,6 @@
 import {
     decreaseItemQuality,
-    increaseItemQuality,
+    increaseItemQuality, increaseItemQualityByOne,
     isBackstagePass,
     isBDawgKeychain,
     isGoodWine, isOverMinQuality, isUnderMaxQuality, LEGENDARY_QUALITY, MAX_QUALITY, MIN_QUALITY, updateForBDawgKeychain
@@ -17,13 +17,21 @@ describe('GildedTrosFunctionsTest', () => {
         //then
         expect(item.quality).toEqual(4)
     });
-    it('increaseItemQuality', () => {
+    it('increaseItemQualityByOne', () => {
         //given
         const item: Item = new Item(Description.RING_OF_CLEANSENING_CODE, 5, 5);
         //when
-        increaseItemQuality(item);
+        increaseItemQualityByOne(item);
         //then
         expect(item.quality).toEqual(6)
+    });
+    it('increaseItemQuality by value', () => {
+        //given
+        const item: Item = new Item(Description.RING_OF_CLEANSENING_CODE, 5, 5);
+        //when
+        increaseItemQuality(item, 3);
+        //then
+        expect(item.quality).toEqual(8)
     });
     it('isBackstagePass', () => {
         //given

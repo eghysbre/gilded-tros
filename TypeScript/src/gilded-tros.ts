@@ -1,7 +1,7 @@
 import {Item} from './item';
 import {
-    decreaseItemQuality,
-    increaseItemQuality,
+    decreaseItemQuality, increaseItemQuality,
+    increaseItemQualityByOne,
     isBackstagePass,
     isBDawgKeychain,
     isGoodWine,
@@ -21,8 +21,11 @@ export class GildedTros {
         for (const item of this._items) {
             if (isBDawgKeychain(item)) {
                 updateForBDawgKeychain(item)
-            } else if (isGoodWine(item) && item.sellIn < 0 && isUnderMaxQuality(item.quality)) {
-                increaseItemQuality(item);
+            } else if (isGoodWine(item)) {
+                item.sellIn -= 1;
+                if(isUnderMaxQuality(item.quality)){
+                    increaseItemQuality(item, 2);
+                }
             } else {
                 if (!isBackstagePass(item)) {
                     if (isOverMinQuality(item.quality)) {
@@ -30,18 +33,18 @@ export class GildedTros {
                     }
                 } else {
                     if (isUnderMaxQuality(item.quality)) {
-                        increaseItemQuality(item);
+                        increaseItemQualityByOne(item);
 
                         if (isBackstagePass(item)) {
                             if (item.sellIn <= 10) {
                                 if (isUnderMaxQuality(item.quality)) {
-                                    increaseItemQuality(item);
+                                    increaseItemQualityByOne(item);
                                 }
                             }
 
                             if (item.sellIn <= 5) {
                                 if (isUnderMaxQuality(item.quality)) {
-                                    increaseItemQuality(item);
+                                    increaseItemQualityByOne(item);
                                 }
                             }
                         }
