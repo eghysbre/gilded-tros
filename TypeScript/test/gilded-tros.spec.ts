@@ -167,9 +167,9 @@ describe('GildedTrosTest', () => {
             {item: new Item(Description.DUPLICATE_CODE, 10, 10), expectedSellIn: 9, expectedQuality: 8},
             {item: new Item(Description.LONG_METHODS, 10, 10), expectedSellIn: 9, expectedQuality: 8},
             {item: new Item(Description.UGLY_VARIABLE_NAMES, 10, 10), expectedSellIn: 9, expectedQuality: 8},
-            {item: new Item(Description.DUPLICATE_CODE, 0, 10), expectedSellIn: -1, expectedQuality: 6},
-            {item: new Item(Description.LONG_METHODS, 0, 10), expectedSellIn: -1, expectedQuality: 6},
-            {item: new Item(Description.UGLY_VARIABLE_NAMES, 0, 10), expectedSellIn: -1, expectedQuality: 6},
+            {item: new Item(Description.DUPLICATE_CODE, -1, 10), expectedSellIn: -2, expectedQuality: 6},
+            {item: new Item(Description.LONG_METHODS, -1, 10), expectedSellIn: -2, expectedQuality: 6},
+            {item: new Item(Description.UGLY_VARIABLE_NAMES, -1, 10), expectedSellIn: -2, expectedQuality: 6},
         ])(
             'should decrease quality twice as fast for $item',
             ({item, expectedSellIn, expectedQuality}) => {

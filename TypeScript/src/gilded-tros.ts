@@ -2,7 +2,7 @@ import {Item} from './item';
 import {
     updateForBackstagePass,
     updateForBDawgKeychain,
-    updateForGoodWine,
+    updateForGoodWine, updateForSmellyItems,
     updateForStandardFlow
 } from './gilded-tros.functions';
 import {Description} from '@/description.enum';
@@ -26,6 +26,11 @@ export class GildedTros {
                 case Description.BACKSTAGE_PASSES_FOR_RE_FACTOR:
                 case Description.BACKSTAGE_PASSES_FOR_HAXX:
                     updateForBackstagePass(item)
+                    break;
+                case Description.DUPLICATE_CODE:
+                case Description.LONG_METHODS:
+                case Description.UGLY_VARIABLE_NAMES:
+                    updateForSmellyItems(item)
                     break;
                 default:
                     updateForStandardFlow(item)
