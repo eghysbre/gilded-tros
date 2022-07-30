@@ -1,13 +1,13 @@
 import {Item} from './item';
 import {
-    decreaseItemQuality, increaseItemQuality,
+    decreaseItemQuality,
     increaseItemQualityByOne,
     isBackstagePass,
     isBDawgKeychain,
     isGoodWine,
     isOverMinQuality,
     isUnderMaxQuality,
-    updateForBDawgKeychain
+    updateForBDawgKeychain, updateForGoodWine
 } from './gilded-tros.functions';
 
 export class GildedTros {
@@ -22,10 +22,7 @@ export class GildedTros {
             if (isBDawgKeychain(item)) {
                 updateForBDawgKeychain(item)
             } else if (isGoodWine(item)) {
-                item.sellIn -= 1;
-                if(isUnderMaxQuality(item.quality)){
-                    increaseItemQuality(item, 2);
-                }
+                updateForGoodWine(item);
             } else {
                 if (!isBackstagePass(item)) {
                     if (isOverMinQuality(item.quality)) {

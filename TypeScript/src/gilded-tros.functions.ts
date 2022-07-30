@@ -41,3 +41,10 @@ export const updateForBDawgKeychain = (item: Item): void => {
     item.quality = LEGENDARY_QUALITY;
     item.sellIn = 0;
 }
+
+export const updateForGoodWine = (item: Item): void => {
+    item.sellIn -= 1;
+    if(isUnderMaxQuality(item.quality)) {
+        increaseItemQuality(item, 2)
+    }
+}
