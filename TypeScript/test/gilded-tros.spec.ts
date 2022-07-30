@@ -19,7 +19,7 @@ describe('GildedTrosTest', () => {
     });
     it('should degrade quality twice as fast when sell date passed', () => {
         //given
-        const items: Item[] = [new Item(Description.RING_OF_CLEANSENING_CODE, 0, 20)];
+        const items: Item[] = [new Item(Description.RING_OF_CLEANSENING_CODE, -1, 20)];
         const app: GildedTros = new GildedTros(items);
 
         //when
@@ -27,7 +27,7 @@ describe('GildedTrosTest', () => {
 
         //then
         expect(result[0].name).toEqual(Description.RING_OF_CLEANSENING_CODE);
-        expect(result[0].sellIn).toEqual(-1);
+        expect(result[0].sellIn).toEqual(-2);
         expect(result[0].quality).toEqual(18);
     });
     it('should not make the quality of an item negative', () => {
@@ -43,7 +43,7 @@ describe('GildedTrosTest', () => {
         expect(result[0].sellIn).toEqual(-1);
         expect(result[0].quality).toEqual(0);
     });
-    it('should increase the quality for Good Wine by 2 when sellIn decreases', () => {
+    it('should increase the quality for Good Wine when sellIn decreases', () => {
         //given
         const items: Item[] = [new Item(Description.GOOD_WINE, 0, 10)];
         const app: GildedTros = new GildedTros(items);
@@ -54,7 +54,7 @@ describe('GildedTrosTest', () => {
         //then
         expect(result[0].name).toEqual(Description.GOOD_WINE);
         expect(result[0].sellIn).toEqual(-1);
-        expect(result[0].quality).toEqual(12);
+        expect(result[0].quality).toEqual(11);
     });
     it('should never increase the quality of an item past MAX_QUALITY', () => {
         //given

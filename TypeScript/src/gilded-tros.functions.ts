@@ -6,7 +6,7 @@ export const MIN_QUALITY = 0;
 export const LEGENDARY_QUALITY = 80;
 
 export const decreaseItemQuality = (item: Item): void => {
-    item.quality -= 1;
+    item.quality = isOverMinQuality(item.quality) ? item.quality -= 1 : item.quality;
 }
 
 export const increaseItemQualityByOne = (item: Item): void => {
@@ -46,16 +46,23 @@ export const updateForBDawgKeychain = (item: Item): void => {
 export const updateForGoodWine = (item: Item): void => {
     item.sellIn -= 1;
     if (isUnderMaxQuality(item.quality)) {
-        increaseItemQuality(item, 2)
+        increaseItemQualityByOne(item)
     }
 }
 export const updateForBackstagePass = (item: Item): void => {
-    if(item.sellIn <= 0){
+    if (item.sellIn <= 0) {
         item.quality = 0;
     } else if (item.sellIn <= 5) {
         increaseItemQuality(item, 3)
     } else if (item.sellIn <= 10) {
         increaseItemQuality(item, 2)
+    }
+    item.sellIn -= 1;
+}
+export const updateForStandardFlow = (item: Item): void => {
+    decreaseItemQuality(item);
+    if (item.sellIn < 0) {
+        decreaseItemQuality(item);
     }
     item.sellIn -= 1;
 }

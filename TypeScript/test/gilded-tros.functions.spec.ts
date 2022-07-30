@@ -11,7 +11,7 @@ import {
     MAX_QUALITY,
     MIN_QUALITY, updateForBackstagePass,
     updateForBDawgKeychain,
-    updateForGoodWine
+    updateForGoodWine, updateForStandardFlow
 } from '../src/gilded-tros.functions';
 import {Item} from '../src/item';
 import {Description} from '../src/description.enum';
@@ -103,7 +103,7 @@ describe('GildedTrosFunctionsTest', () => {
             updateForGoodWine(item);
             //then
             expect(item.sellIn).toEqual(4)
-            expect(item.quality).toEqual(7)
+            expect(item.quality).toEqual(6)
         });
         it('should not increase quality when maximum', () => {
             //given
@@ -140,5 +140,34 @@ describe('GildedTrosFunctionsTest', () => {
                 expect(item.quality).toEqual(quality);
             },
         );
+    });
+    describe('updateForStandardFlow', () => {
+        it('should decrease quality and sellIn by 1', () => {
+            //given
+            const item: Item = new Item(Description.RING_OF_CLEANSENING_CODE, 0, 10);
+            //when
+            updateForStandardFlow(item);
+            //then
+            expect(item.sellIn).toEqual(-1)
+            expect(item.quality).toEqual(9)
+        });
+        it('should decrease quality twice is sellIn is below 0', () => {
+            //given
+            const item: Item = new Item(Description.RING_OF_CLEANSENING_CODE, -1, 10);
+            //when
+            updateForStandardFlow(item);
+            //then
+            expect(item.sellIn).toEqual(-2)
+            expect(item.quality).toEqual(8)
+        });
+        it('should not decrease quality if quality already 0', () => {
+            //given
+            const item: Item = new Item(Description.RING_OF_CLEANSENING_CODE, 0, 0);
+            //when
+            updateForStandardFlow(item);
+            //then
+            expect(item.sellIn).toEqual(-1)
+            expect(item.quality).toEqual(0)
+        });
     });
 });
