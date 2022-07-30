@@ -27,6 +27,12 @@ export const isBDawgKeychain = (item: Item): boolean => {
 export const isOverMinQuality = (quality: number): boolean => {
     return quality > MIN_QUALITY
 }
+
 export const isUnderMaxQuality = (quality: number): boolean => {
     return quality < MAX_QUALITY
+}
+
+export const updateForBDawgKeychain = (item: Item): void => {
+    item.quality = LEGENDARY_QUALITY;
+    item.sellIn = 0;
 }

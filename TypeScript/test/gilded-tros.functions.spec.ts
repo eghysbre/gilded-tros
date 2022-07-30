@@ -3,7 +3,7 @@ import {
     increaseItemQuality,
     isBackstagePass,
     isBDawgKeychain,
-    isGoodWine, isOverMinQuality, isUnderMaxQuality, MAX_QUALITY, MIN_QUALITY
+    isGoodWine, isOverMinQuality, isUnderMaxQuality, LEGENDARY_QUALITY, MAX_QUALITY, MIN_QUALITY, updateForBDawgKeychain
 } from '../src/gilded-tros.functions';
 import {Item} from '../src/item';
 import {Description} from '../src/description.enum';
@@ -59,5 +59,14 @@ describe('GildedTrosFunctionsTest', () => {
     it('isUnderMaxQuality', () => {
         expect(isUnderMaxQuality(MAX_QUALITY+1)).toBe(false)
         expect(isUnderMaxQuality(MAX_QUALITY-1)).toBe(true)
+    });
+    it('updateForBDawgKeychain', () => {
+        //given
+        const item: Item = new Item(Description.B_DAWG_KEYCHAIN, 5, 5);
+        //when
+        updateForBDawgKeychain(item);
+        //then
+        expect(item.sellIn).toEqual(0)
+        expect(item.quality).toEqual(LEGENDARY_QUALITY)
     });
 });
