@@ -72,7 +72,7 @@ describe('GildedTrosTest', () => {
     it('should never decrease B-DAWG-KEYCHAIN and never be sold and hold the legendary quality which is above max quality', () => {
         //given
         const sellIn = 0;
-        const quality = LEGENDARY_QUALITY;
+        const quality = 10;
         const items: Item[] = [new Item(Description.B_DAWG_KEYCHAIN, sellIn, quality)];
         const app: GildedTros = new GildedTros(items);
 
@@ -82,7 +82,7 @@ describe('GildedTrosTest', () => {
         //then
         expect(result[0].name).toEqual(Description.B_DAWG_KEYCHAIN);
         expect(result[0].sellIn).toEqual(sellIn);
-        expect(result[0].quality).toEqual(quality);
+        expect(result[0].quality).toEqual(LEGENDARY_QUALITY);
     });
 
     describe('Backstage passes', () => {
