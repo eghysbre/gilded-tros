@@ -1,6 +1,13 @@
 import {Item} from './item';
-import {Description} from './description.enum';
-import {MAX_QUALITY} from './gilded-tros.functions';
+import {
+    decreaseItemQuality,
+    increaseItemQuality,
+    isBackstagePass,
+    isBDawgKeychain,
+    isGoodWine,
+    isOverMinQuality,
+    isUnderMaxQuality
+} from './gilded-tros.functions';
 
 export class GildedTros {
     private _items: Array<Item> = new Array<Item>();
@@ -11,51 +18,50 @@ export class GildedTros {
 
     public updateQuality(): Item[] {
         for (const item of this._items) {
-            if (item.name !== Description.GOOD_WINE && item.name !== Description.BACKSTAGE_PASSES_FOR_RE_FACTOR
-                && item.name !== Description.BACKSTAGE_PASSES_FOR_HAXX) {
-                if (item.quality > 0) {
-                    if (item.name !== Description.B_DAWG_KEYCHAIN) {
-                        item.quality = item.quality - 1;
+            if (!isGoodWine(item) && !isBackstagePass(item)) {
+                if (isOverMinQuality(item.quality)) {
+                    if (!isBDawgKeychain(item)) {
+                        decreaseItemQuality(item);
                     }
                 }
             } else {
-                if (item.quality < MAX_QUALITY) {
-                    item.quality = item.quality + 1;
+                if (isUnderMaxQuality(item.quality)) {
+                    increaseItemQuality(item);
 
-                    if (item.name === Description.BACKSTAGE_PASSES_FOR_RE_FACTOR) {
-                        if (item.sellIn < 11) {
-                            if (item.quality < MAX_QUALITY) {
-                                item.quality = item.quality + 1;
+                    if (isBackstagePass(item)) {
+                        if (item.sellIn <= 10) {
+                            if (isUnderMaxQuality(item.quality)) {
+                                increaseItemQuality(item);
                             }
                         }
 
-                        if (item.sellIn < 6) {
-                            if (item.quality < MAX_QUALITY) {
-                                item.quality = item.quality + 1;
+                        if (item.sellIn <= 5) {
+                            if (isUnderMaxQuality(item.quality)) {
+                                increaseItemQuality(item);
                             }
                         }
                     }
                 }
             }
 
-            if (item.name !== Description.B_DAWG_KEYCHAIN) {
-                item.sellIn = item.sellIn - 1;
+            if (!isBDawgKeychain(item)) {
+                item.sellIn -= 1;
             }
 
             if (item.sellIn < 0) {
-                if (item.name !== Description.GOOD_WINE) {
-                    if (item.name !== Description.BACKSTAGE_PASSES_FOR_RE_FACTOR && item.name !== Description.BACKSTAGE_PASSES_FOR_HAXX) {
-                        if (item.quality > 0) {
-                            if (item.name !== Description.B_DAWG_KEYCHAIN) {
-                                item.quality = item.quality - 1;
+                if (!isGoodWine(item)) {
+                    if (!isBackstagePass(item)) {
+                        if (isOverMinQuality(item.quality)) {
+                            if (!isBDawgKeychain(item)) {
+                                decreaseItemQuality(item);
                             }
                         }
                     } else {
-                        item.quality = item.quality - item.quality;
+                        item.quality = 0;
                     }
                 } else {
-                    if (item.quality < MAX_QUALITY) {
-                        item.quality = item.quality + 1;
+                    if (isUnderMaxQuality(item.quality)) {
+                        increaseItemQuality(item);
                     }
                 }
             }
