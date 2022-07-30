@@ -1,10 +1,6 @@
 import {
     decreaseItemQuality,
     increaseItemQuality,
-    increaseItemQualityByOne,
-    isBackstagePass,
-    isBDawgKeychain,
-    isGoodWine,
     isOverMinQuality,
     isUnderMaxQuality,
     LEGENDARY_QUALITY,
@@ -25,14 +21,6 @@ describe('GildedTrosFunctionsTest', () => {
         //then
         expect(item.quality).toEqual(4)
     });
-    it('should increase quality by 1', () => {
-        //given
-        const item: Item = new Item(Description.RING_OF_CLEANSENING_CODE, 5, 5);
-        //when
-        increaseItemQualityByOne(item);
-        //then
-        expect(item.quality).toEqual(6)
-    });
     describe('increaseItemQuality', () => {
         it('should increase quality by increase value', () => {
             //given
@@ -50,33 +38,6 @@ describe('GildedTrosFunctionsTest', () => {
             //then
             expect(item.quality).toEqual(MAX_QUALITY)
         });
-    });
-    it('should be true for backstage, false for not backstage', () => {
-        //given
-        const notBackstageItem: Item = new Item(Description.RING_OF_CLEANSENING_CODE, 5, 5);
-        const backstageItem: Item = new Item(Description.BACKSTAGE_PASSES_FOR_HAXX, 5, 5);
-        //when
-        //then
-        expect(isBackstagePass(notBackstageItem)).toBe(false)
-        expect(isBackstagePass(backstageItem)).toBe(true)
-    });
-    it('should be true for good wine false for everything else', () => {
-        //given
-        const notGoodWineItem: Item = new Item(Description.RING_OF_CLEANSENING_CODE, 5, 5);
-        const goodWineItem: Item = new Item(Description.GOOD_WINE, 5, 5);
-        //when
-        //then
-        expect(isGoodWine(notGoodWineItem)).toBe(false)
-        expect(isGoodWine(goodWineItem)).toBe(true)
-    });
-    it('should be true for B-Dawg Keychain, false for everything else', () => {
-        //given
-        const notBDawgItem: Item = new Item(Description.RING_OF_CLEANSENING_CODE, 5, 5);
-        const bDawgItem: Item = new Item(Description.B_DAWG_KEYCHAIN, 5, 5);
-        //when
-        //then
-        expect(isBDawgKeychain(notBDawgItem)).toBe(false)
-        expect(isBDawgKeychain(bDawgItem)).toBe(true)
     });
     it('should be true if quality over minimum, false if under', () => {
         expect(isOverMinQuality(MIN_QUALITY-1)).toBe(false)

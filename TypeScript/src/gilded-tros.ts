@@ -1,13 +1,11 @@
 import {Item} from './item';
 import {
-    isBackstagePass,
-    isBDawgKeychain,
-    isGoodWine,
     updateForBackstagePass,
     updateForBDawgKeychain,
     updateForGoodWine,
     updateForStandardFlow
 } from './gilded-tros.functions';
+import {Description} from '@/description.enum';
 
 export class GildedTros {
     private _items: Array<Item> = new Array<Item>();
@@ -18,14 +16,20 @@ export class GildedTros {
 
     public updateQuality(): Item[] {
         for (const item of this._items) {
-            if (isBDawgKeychain(item)) {
-                updateForBDawgKeychain(item)
-            } else if (isGoodWine(item)) {
-                updateForGoodWine(item);
-            } else if (isBackstagePass(item)) {
-                updateForBackstagePass(item)
-            } else {
-                updateForStandardFlow(item)
+            switch (item.name) {
+                case Description.B_DAWG_KEYCHAIN:
+                    updateForBDawgKeychain(item)
+                    break;
+                case Description.GOOD_WINE:
+                    updateForGoodWine(item)
+                    break;
+                case Description.BACKSTAGE_PASSES_FOR_RE_FACTOR:
+                case Description.BACKSTAGE_PASSES_FOR_HAXX:
+                    updateForBackstagePass(item)
+                    break;
+                default:
+                    updateForStandardFlow(item)
+                    break;
             }
         }
         return this._items;
