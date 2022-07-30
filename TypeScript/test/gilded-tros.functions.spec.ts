@@ -9,7 +9,7 @@ import {
     isUnderMaxQuality,
     LEGENDARY_QUALITY,
     MAX_QUALITY,
-    MIN_QUALITY,
+    MIN_QUALITY, updateForBackstagePass,
     updateForBDawgKeychain,
     updateForGoodWine
 } from '../src/gilded-tros.functions';
@@ -33,13 +33,23 @@ describe('GildedTrosFunctionsTest', () => {
         //then
         expect(item.quality).toEqual(6)
     });
-    it('should increase quality by increase value', () => {
-        //given
-        const item: Item = new Item(Description.RING_OF_CLEANSENING_CODE, 5, 5);
-        //when
-        increaseItemQuality(item, 3);
-        //then
-        expect(item.quality).toEqual(8)
+    describe('increaseItemQuality', () => {
+        it('should increase quality by increase value', () => {
+            //given
+            const item: Item = new Item(Description.RING_OF_CLEANSENING_CODE, 5, 5);
+            //when
+            increaseItemQuality(item, 3);
+            //then
+            expect(item.quality).toEqual(8)
+        });
+        it('should set quality to maximum when the increase would go beyond', () => {
+            //given
+            const item: Item = new Item(Description.RING_OF_CLEANSENING_CODE, 5, 48);
+            //when
+            increaseItemQuality(item, 3);
+            //then
+            expect(item.quality).toEqual(MAX_QUALITY)
+        });
     });
     it('should be true for backstage, false for not backstage', () => {
         //given
@@ -104,5 +114,31 @@ describe('GildedTrosFunctionsTest', () => {
             expect(item.sellIn).toEqual(4)
             expect(item.quality).toEqual(MAX_QUALITY)
         });
+    });
+    describe('updateForBackstagePass', () => {
+        it.each([
+            //given
+            {item: new Item(Description.BACKSTAGE_PASSES_FOR_RE_FACTOR, 11, 10), quality: 10},
+            {item: new Item(Description.BACKSTAGE_PASSES_FOR_HAXX, 11, 10), quality: 10},
+            {item: new Item(Description.BACKSTAGE_PASSES_FOR_RE_FACTOR, 10, 10), quality: 12},
+            {item: new Item(Description.BACKSTAGE_PASSES_FOR_HAXX, 10, 10), quality: 12},
+            {item: new Item(Description.BACKSTAGE_PASSES_FOR_RE_FACTOR, 5, 10), quality: 13},
+            {item: new Item(Description.BACKSTAGE_PASSES_FOR_HAXX, 5, 10), quality: 13},
+            {item: new Item(Description.BACKSTAGE_PASSES_FOR_RE_FACTOR, 5, 50), quality: 50},
+            {item: new Item(Description.BACKSTAGE_PASSES_FOR_HAXX, 5, 48), quality: 50},
+            {item: new Item(Description.BACKSTAGE_PASSES_FOR_RE_FACTOR, 0, 10), quality: 0},
+            {item: new Item(Description.BACKSTAGE_PASSES_FOR_HAXX, 0, 10), quality: 0},
+        ])(
+            'should set quality to $quality for $item',
+            ({item, quality}) => {
+
+                //when
+                updateForBackstagePass(item);
+
+                //then
+                expect(item.name).toEqual(item.name);
+                expect(item.quality).toEqual(quality);
+            },
+        );
     });
 });

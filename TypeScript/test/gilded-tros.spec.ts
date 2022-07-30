@@ -84,7 +84,7 @@ describe('GildedTrosTest', () => {
     });
 
     describe('Backstage passes', () => {
-        it('should decrease quality by 1 when sellIn >10 for backstage passes', () => {
+        it('should not decrease quality when sellIn >10 for backstage passes', () => {
             //given
             const items: Item[] = [
                 new Item(Description.BACKSTAGE_PASSES_FOR_HAXX, 16, 30),
@@ -98,10 +98,10 @@ describe('GildedTrosTest', () => {
             //then
             expect(result[0].name).toEqual(Description.BACKSTAGE_PASSES_FOR_HAXX);
             expect(result[0].sellIn).toEqual(15);
-            expect(result[0].quality).toEqual(29);
+            expect(result[0].quality).toEqual(30);
             expect(result[1].name).toEqual(Description.BACKSTAGE_PASSES_FOR_RE_FACTOR);
             expect(result[1].sellIn).toEqual(15);
-            expect(result[1].quality).toEqual(29);
+            expect(result[1].quality).toEqual(30);
         });
         it('should increase quality by 2 when sellIn <=10 for backstage passes', () => {
             //given

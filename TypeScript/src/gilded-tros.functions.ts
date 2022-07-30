@@ -1,5 +1,5 @@
-import {Item} from '@/item';
-import {Description} from '@/description.enum';
+import {Item} from './item';
+import {Description} from './description.enum';
 
 export const MAX_QUALITY = 50;
 export const MIN_QUALITY = 0;
@@ -9,12 +9,13 @@ export const decreaseItemQuality = (item: Item): void => {
     item.quality -= 1;
 }
 
-export const increaseItemQuality= (item: Item, increase: number): void => {
-    item.quality += increase;
-}
-
 export const increaseItemQualityByOne = (item: Item): void => {
     increaseItemQuality(item, 1);
+}
+
+export const increaseItemQuality = (item: Item, increase: number): void => {
+    const quality = item.quality + increase;
+    item.quality = isUnderMaxQuality(quality) ? quality : MAX_QUALITY;
 }
 
 export const isBackstagePass = (item: Item): boolean => {
@@ -44,7 +45,17 @@ export const updateForBDawgKeychain = (item: Item): void => {
 
 export const updateForGoodWine = (item: Item): void => {
     item.sellIn -= 1;
-    if(isUnderMaxQuality(item.quality)) {
+    if (isUnderMaxQuality(item.quality)) {
         increaseItemQuality(item, 2)
     }
+}
+export const updateForBackstagePass = (item: Item): void => {
+    if(item.sellIn <= 0){
+        item.quality = 0;
+    } else if (item.sellIn <= 5) {
+        increaseItemQuality(item, 3)
+    } else if (item.sellIn <= 10) {
+        increaseItemQuality(item, 2)
+    }
+    item.sellIn -= 1;
 }
